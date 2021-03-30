@@ -84,6 +84,13 @@ function asyncPool(poolLimit, array, iteratorFn) {
   return enqueue().then(() => Promise.all(ret));
 }
 
+//使用方法
+const timeout = i => new Promise(resolve => setTimeout(() => resolve(i), i));
+return asyncPool(2, [1000, 5000, 3000, 2000], timeout).then(results => {
+  // ...
+});
+
+
 // 重复调用enqueue函数初始化多个请求，达到最大并行数
 // 将请求本身的promise存放在ret里，将请求的then方法的promise存放在executing里
 // 请求成功后触发then，在executing中删除自己并使自己改变状态，从而触发promise.race改变状态，触发其then，重新调用enqueue函数
@@ -93,11 +100,3 @@ function asyncPool(poolLimit, array, iteratorFn) {
 // promise.race的参数是executing数组，但他绑定的是数组中的promise实例，所以即使这些实例在改变状态前就把自己从executing中删除了，也不影响race监听
 //   (promise改变状态的时间点 在显式调用resolve或reject或return时)
 // promise.all的作用在于在触发时，已经没有待新增的请求，但还可能有未处理完毕的请求，all会等待所有请求处理完毕后再改变状态
-
-// 
-
-//使用方法
-const timeout = i => new Promise(resolve => setTimeout(() => resolve(i), i));
-return asyncPool(2, [1000, 5000, 3000, 2000], timeout).then(results => {
-  // ...
-});
