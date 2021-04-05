@@ -77,3 +77,13 @@ function throttle2 (fn, timeout) {
     }, timeout || 500)
   }
 }
+
+// 单例模式
+
+let getSingle = function (fn) {
+  let result
+
+  return function () {
+    return result || ( result = fn.apply(this, arguments) )
+  }
+}
