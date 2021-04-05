@@ -87,3 +87,7 @@ let getSingle = function (fn) {
     return result || ( result = fn.apply(this, arguments) )
   }
 }
+
+var doSomethingWithSingleMode = getSingle(function () {
+  // do something
+})
