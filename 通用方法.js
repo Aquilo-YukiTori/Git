@@ -79,6 +79,7 @@ function throttle2 (fn, timeout) {
 }
 
 // 单例模式
+// 保证一个类仅有一个实例·，并提供一个访问它的全局访问点
 
 let getSingle = function (fn) {
   let result
@@ -91,3 +92,17 @@ let getSingle = function (fn) {
 var doSomethingWithSingleMode = getSingle(function () {
   // do something
 })
+
+// 策略模式
+// 定义一系列的算法，把他们一个个封装起来，并且使他们可以相互替换
+
+// 策略类
+let strategies = {
+  strategyA: function () {},
+  strategyB: function () {},
+  strategyC: function () {},
+}
+// 环境类
+let context = function (strategy, p1, p2) {
+  return strategies[strategy](p1, p2)
+}
